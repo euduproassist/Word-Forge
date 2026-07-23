@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>WORD FORGE - Settings Dossier Master Edition</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Cinzel+Decorative:wght@700;900&family=Montserrat:wght@800&display=swap');
+:root {
+--leather-base: #281007;
+--parchment-top: #fbf5e8;
+--parchment-center: #f3e9d4;
+--parchment-edge: #dac3a0;
+--ink-primary: #331f13;
+--olive-gradient-top: #526332;
+--olive-gradient-bottom: #2b3819;
+}
+*, *::before, *::after {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+html, body {
+width: 100%;
+width: 100vw;
+min-height: 100%;
+min-height: 100dvh;
+overflow-x: hidden;
+overflow-y: auto;
+font-family: 'Cinzel', Georgia, serif;
+color: var(--ink-primary);
+background-color: var(--leather-base);
+-webkit-tap-highlight-color: transparent;
+-webkit-text-size-adjust: 100%;
+}
+.leather-dossier {
+min-height: 100dvh;
+width: 100vw;
+background:
+radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%),
+repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 4px),
+linear-gradient(155deg, #421d10 0%, #281007 50%, #110401 100%);
+display: flex;
+justify-content: center;
+align-items: center;
+padding: clamp(10px, 2vh, 20px) clamp(10px, 2vw, 20px);
+}
+.game-canvas-wrapper {
+position: relative;
+width: 100%;
+max-width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.game-viewport {
+position: relative;
+width: min(100%, clamp(320px, 92vw, 450px));
+height: min(92dvh, clamp(550px, 88vh, 740px));
+max-width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+box-shadow: 0 20px 50px rgba(0,0,0,0.85);
+flex-shrink: 0;
+}
+.brass-corner {
+position: absolute;
+width: clamp(32px, 10vw, 48px);
+height: clamp(32px, 10vw, 48px);
+z-index: 30;
+pointer-events: none;
+filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.9));
+}
+.brass-corner::before {
+content: '';
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, #fbe8b5 0%, #c69f47 30%, #7e5917 70%, #301f02 100%);
+border: 1px solid rgba(255, 230, 150, 0.4);
+box-shadow: inset 0 1px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(0,0,0,0.8);
+}
+.brass-corner::after {
+content: '';
+position: absolute;
+width: clamp(6px, 2vw, 8px);
+height: clamp(6px, 2vw, 8px);
+background: radial-gradient(circle at 35% 35%, #fff1c1 0%, #b88f33 50%, #382202 100%);
+border-radius: 50%;
+box-shadow: 0 1px 2px rgba(0,0,0,0.9), inset 0 1px 1px rgba(255,255,255,0.8);
+}
+.top-left { top: 0; left: 0; }
+.top-left::before { clip-path: polygon(0 0, 100% 0, 100% 28%, 28% 28%, 28% 100%, 0 100%); }
+.top-left::after { top: clamp(4px, 1.5vw, 6px); left: clamp(4px, 1.5vw, 6px); }
+.top-right { top: 0; right: 0; }
+.top-right::before { clip-path: polygon(0 0, 100% 0, 100% 100%, 72% 100%, 72% 28%, 0 28%); }
+.top-right::after { top: clamp(4px, 1.5vw, 6px); right: clamp(4px, 1.5vw, 6px); }
+.bottom-left { bottom: 0; left: 0; }
+.bottom-left::before { clip-path: polygon(0 0, 28% 0, 28% 72%, 100% 72%, 100% 100%, 0 100%); }
+.bottom-left::after { bottom: clamp(4px, 1.5vw, 6px); left: clamp(4px, 1.5vw, 6px); }
+.bottom-right { bottom: 0; right: 0; }
+.bottom-right::before { clip-path: polygon(72% 0, 100% 0, 100% 100%, 0 100%, 0 72%, 72% 72%); }
+.bottom-right::after { bottom: clamp(4px, 1.5vw, 6px); right: clamp(4px, 1.5vw, 6px); }
+.parchment-sheet {
+position: relative;
+width: 100%;
+height: 100%;
+background:
+radial-gradient(circle at 85% 90%, rgba(130, 95, 50, 0.25) 0%, transparent 40%),
+radial-gradient(ellipse at 50% 30%, var(--parchment-top) 0%, var(--parchment-center) 60%, var(--parchment-edge) 100%);
+border-radius: 2px;
+padding: clamp(16px, 4vh, 26px) clamp(14px, 4vw, 24px);
+border: 1px solid #7a5e3a;
+box-shadow:
+inset 0 0 60px rgba(97, 65, 27, 0.32),
+inset 0 0 15px rgba(60, 35, 10, 0.2),
+0 4px 15px rgba(0,0,0,0.6);
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+.header-bar {
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+height: clamp(36px, 8vh, 48px);
+margin-top: 2px;
+}
+.back-button {
+position: absolute;
+left: 0;
+width: clamp(34px, 9vw, 42px);
+height: clamp(34px, 9vw, 42px);
+border-radius: 50%;
+background: radial-gradient(circle at 35% 30%, #e8ca8c 0%, #a88851 35%, #5a3f1c 70%, #261806 100%);
+border: 2px solid #1a0f04;
+box-shadow:
+0 4px 8px rgba(0,0,0,0.55),
+inset 0 2px 3px rgba(255,255,255,0.7),
+inset 0 -2px 3px rgba(0,0,0,0.8);
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: transform 0.1s ease;
+}
+.back-button::after {
+content: '←';
+color: #fcecd2;
+font-size: clamp(16px, 4vw, 20px);
+font-weight: 900;
+text-shadow: 0 -1px 2px #000, 0 1px 1px rgba(255,255,255,0.4);
+}
+.back-button:active {
+transform: scale(0.94);
+}
+.page-title {
+font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+font-size: clamp(1.4rem, 5vw, 2.1rem);
+font-weight: 900;
+color: #321d11;
+letter-spacing: clamp(2px, 1vw, 4px);
+text-shadow:
+1px 1px 0px rgba(255, 255, 255, 0.9),
+-1px -1px 0px rgba(50, 29, 17, 0.2),
+0 2px 3px rgba(0, 0, 0, 0.25);
+}
+.star-divider {
+display: flex;
+align-items: center;
+justify-content: center;
+margin: clamp(2px, 1vh, 2px) auto clamp(6px, 2vh, 10px) auto;
+width: 92%;
+}
+.divider-bar {
+height: 2px;
+flex: 1;
+background: linear-gradient(90deg, transparent, #85663c 30%, #523a1a 70%, transparent);
+box-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.divider-star {
+margin: 0 clamp(6px, 2vw, 10px);
+color: #5c3e18;
+font-size: clamp(10px, 3vw, 12px);
+text-shadow: 0 1px 1px rgba(255,255,255,0.8), 0 -1px 0 rgba(0,0,0,0.3);
+}
+.setting-item {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: clamp(6px, 1.5vh, 10px) 0;
+border-bottom: 1px dashed rgba(105, 71, 38, 0.35);
+}
+.setting-item:last-of-type {
+border-bottom: none;
+}
+.setting-label-group {
+display: flex;
+align-items: center;
+gap: clamp(10px, 3vw, 16px);
+}
+.setting-title {
+font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+font-weight: 800;
+color: #362114;
+letter-spacing: clamp(1px, 0.5vw, 1.5px);
+text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+.icon-bronze {
+width: clamp(20px, 6vw, 26px);
+height: clamp(20px, 6vw, 26px);
+fill: url(#bronze-gradient-fill);
+filter: drop-shadow(1px 2px 1px rgba(0,0,0,0.45)) drop-shadow(0 0 1px rgba(255,255,255,0.4));
+}
+.toggle-container {
+display: flex;
+width: clamp(86px, 25vw, 104px);
+height: clamp(30px, 8vh, 36px);
+background: linear-gradient(180deg, #2d2011 0%, #110903 100%);
+border: 2px solid #241609;
+border-radius: 5px;
+padding: 2px;
+box-shadow:
+0 3px 6px rgba(0,0,0,0.45),
+inset 0 2px 4px rgba(0,0,0,0.9),
+0 0 0 1px rgba(255,255,255,0.08);
+cursor: pointer;
+}
+.toggle-state {
+flex: 1;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: 'Montserrat', sans-serif;
+font-size: clamp(0.65rem, 2vw, 0.75rem);
+font-weight: 800;
+color: #4a3522;
+border-radius: 3px;
+user-select: none;
+transition: all 0.15s ease;
+text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+}
+.toggle-state.active {
+background: linear-gradient(180deg, var(--olive-gradient-top) 0%, var(--olive-gradient-bottom) 100%);
+color: #f2e6cb;
+border: 1px solid #1c2610;
+box-shadow:
+inset 0 1px 2px rgba(255,255,255,0.45),
+inset 0 -1px 1px rgba(0,0,0,0.6),
+0 2px 4px rgba(0,0,0,0.5);
+text-shadow: 0 -1px 1px rgba(0,0,0,0.9);
+}
+.dropdown-container {
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: clamp(90px, 26vw, 108px);
+height: clamp(30px, 8vh, 36px);
+padding: 0 clamp(6px, 2vw, 10px);
+background: linear-gradient(180deg, #e4d5b2 0%, #b2956c 50%, #8a6c43 100%);
+border: 2px solid #2b1a0c;
+border-radius: 5px;
+font-size: clamp(0.68rem, 2vw, 0.78rem);
+font-weight: 800;
+color: #2b1a0d;
+box-shadow:
+0 3px 6px rgba(0,0,0,0.35),
+inset 0 1px 2px rgba(255,255,255,0.7),
+inset 0 -1px 2px rgba(60,35,10,0.6);
+cursor: pointer;
+}
+.dropdown-container span:last-child {
+font-size: clamp(7px, 2vw, 9px);
+color: #3d2714;
+text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+.arrow-action {
+font-size: clamp(0.9rem, 3vw, 1.1rem);
+font-weight: 900;
+color: #5c4127;
+padding-right: 4px;
+cursor: pointer;
+text-shadow:
+0 1px 1px rgba(255,255,255,0.7),
+0 -1px 1px rgba(0,0,0,0.4);
+transition: transform 0.1s ease;
+}
+.arrow-action:active {
+transform: translateX(2px);
+}
+.watermark-emblem {
+position: absolute;
+bottom: clamp(8px, 2vh, 12px);
+right: clamp(10px, 3vw, 16px);
+width: clamp(14px, 4vw, 18px);
+height: clamp(14px, 4vw, 18px);
+background: rgba(110, 75, 38, 0.18);
+transform: rotate(45deg);
+pointer-events: none;
+box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+<body>
+<svg style="width:0;height:0;position:absolute;" aria-hidden="true">
+<defs>
+<linearGradient id="bronze-gradient-fill" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#a67c3f" />
+<stop offset="35%" stop-color="#704c20" />
+<stop offset="70%" stop-color="#472f10" />
+<stop offset="100%" stop-color="#261706" />
+</linearGradient>
+</defs>
+</svg>
+<main class="leather-dossier" role="main">
+<div class="game-canvas-wrapper">
+<div class="game-viewport" id="gameViewport">
+<div class="brass-corner top-left"></div>
+<div class="brass-corner top-right"></div>
+<div class="brass-corner bottom-left"></div>
+<div class="brass-corner bottom-right"></div>
+<article class="parchment-sheet">
+<header class="header-bar">
+<button class="back-button" aria-label="Go Back"></button>
+<h1 class="page-title">SETTINGS</h1>
+</header>
+<div class="star-divider">
+<div class="divider-bar"></div>
+<div class="divider-star">★</div>
+<div class="divider-bar"></div>
+</div>
+<section class="setting-item">
+<div class="setting-label-group">
+<svg class="icon-bronze" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+<span class="setting-title">MUSIC</span>
+</div>
+<div class="toggle-container" role="switch" aria-checked="true">
+<div class="toggle-state active">ON</div>
+<div class="toggle-state">OFF</div>
+</div>
+</section>
+<section class="setting-item">
+<div class="setting-label-group">
+<svg class="icon-bronze" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+<span class="setting-title">SOUND</span>
+</div>
+<div class="toggle-container" role="switch" aria-checked="true">
+<div class="toggle-state active">ON</div>
+<div class="toggle-state">OFF</div>
+</div>
+</section>
+<section class="setting-item">
+<div class="setting-label-group">
+<svg class="icon-bronze" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+<span class="setting-title">LANGUAGE</span>
+</div>
+<div class="dropdown-container">
+<span>ENGLISH</span>
+<span>▼</span>
+</div>
+</section>
+<section class="setting-item">
+<div class="setting-label-group">
+<svg class="icon-bronze" viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+<span class="setting-title">RESET PROGRESS</span>
+</div>
+<div class="arrow-action">❯</div>
+</section>
+<section class="setting-item">
+<div class="setting-label-group">
+<svg class="icon-bronze" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+<span class="setting-title">RESTORE PURCHASES</span>
+</div>
+<div class="arrow-action">❯</div>
+</section>
+<section class="setting-item">
+<div class="setting-label-group">
+<svg class="icon-bronze" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+<span class="setting-title">ABOUT</span>
+</div>
+<div class="arrow-action">❯</div>
+</section>
+<div class="watermark-emblem"></div>
+</article>
+</div>
+</div>
+</main>
+</body>
+</html>
