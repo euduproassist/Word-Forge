@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Word Forge Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Mobile Shell to keep exact proportions across all screens */
+        .phone-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            max-height: 932px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* Screen Wrapper */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Screen 1: Logo Splash */
+        #screen-1 {
+            background-color: #000;
+            background-image: url('assets/logo.png');
+        }
+
+        /* Screen 2 & 3 Backgrounds */
+        #screen-2 {
+            background-image: url('assets/load.png');
+        }
+
+        #screen-3 {
+            background-image: url('assets/menu.png');
+        }
+
+        /* 
+          PIXEL-PERFECT LOADING BAR OVERLAY 
+          Moved slightly higher from 79.2% to 75.8% to align correctly with the background track image.
+        */
+        .loading-section {
+            position: absolute;
+            top: 75.8%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 73%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 11px;
+            background: transparent; /* Allows your image track to show cleanly */
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b6ef3, #7697ff);
+            border-radius: 20px;
+            transition: width 0.05s linear;
+        }
+
+        .percentage-text {
+            color: #1a2b4c;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* 
+          PIXEL-PERFECT "BEGIN YOUR JOURNEY" BUTTON SLOT 
+          Matches assets/menu.png precisely
+        */
+        .journey-slot {
+            position: absolute;
+            top: 56.1%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 78%;
+            height: 60px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-viewport">
+        <!-- SCREEN 1: Logo Splash (Shows for 3 seconds, fades out) -->
+        <div class="screen active" id="screen-1"></div>
+
+        <!-- SCREEN 2: Loading State -->
+        <div class="screen" id="screen-2">
+            <div class="loading-section">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+                <div class="percentage-text" id="percent-count">0%</div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Main Menu -->
+        <div class="screen" id="screen-3">
+            <button class="journey-slot" onclick="alert('Journey Started!')"></button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            const screen3 = document.getElementById('screen-3');
+            const progressFill = document.getElementById('progress-fill');
+            const percentCount = document.getElementById('percent-count');
+
+            // Step 1: Display Logo Splash for 3 seconds
+            setTimeout(() => {
+                screen1.classList.remove('active');
+                screen2.classList.add('active');
+                
+                // Step 2: Smooth loading progress animation (~2.5 seconds)
+                let currentProgress = 0;
+                const loadingInterval = setInterval(() => {
+                    currentProgress += 1;
+                    if (currentProgress <= 100) {
+                        progressFill.style.width = currentProgress + '%';
+                        percentCount.innerText = currentProgress + '%';
+                    } else {
+                        clearInterval(loadingInterval);
+                        
+                        // Step 3: Transition cleanly to Menu screen
+                        setTimeout(() => {
+                            screen2.classList.remove('active');
+                            screen3.classList.add('active');
+                        }, 300);
+                    }
+                }, 25);
+                
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
