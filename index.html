@@ -68,6 +68,16 @@
             background-image: url('assets/menu.png');
         }
 
+        /* Screen 5: Settings Screen Background */
+        #screen-settings {
+            background-image: url('assets/settings.png');
+        }
+
+        /* Screen 6: Academies / Topics Screen Background */
+        #screen-topics {
+            background-image: url('assets/topics.png');
+        }
+
         /* Shop Vertical Carousel Screen Container */
         #screen-4 {
             background-image: url('assets/pass.png');
@@ -144,7 +154,7 @@
             font-size: 13px;
         }
 
-        /* Journey Button Slot */
+        /* Journey Button Slot on Menu */
         .journey-slot {
             position: absolute;
             top: 56.1%;
@@ -172,6 +182,19 @@
             border-radius: 20px;
         }
 
+        /* Settings Button Slot on Menu (Right side of row below cards) */
+        .settings-slot {
+            position: absolute;
+            top: 79.2%;
+            right: 8%;
+            width: 41%;
+            height: 52px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 16px;
+        }
+
         /* Back Button Slot on Shop Screen */
         .back-slot {
             position: absolute;
@@ -184,6 +207,61 @@
             cursor: pointer;
             border-radius: 50%;
             z-index: 20;
+        }
+
+        /* Back Button Slot on Settings Screen */
+        .settings-back-slot {
+            position: absolute;
+            top: 4.5%;
+            left: 6%;
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 20;
+        }
+
+        /* Back Button Slot on Topics/Academies Screen */
+        .topics-back-slot {
+            position: absolute;
+            top: 4.5%;
+            left: 6%;
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 20;
+        }
+
+        /* Footer Navigation Buttons on Topics/Academies Screen */
+        .topics-shop-slot {
+            position: absolute;
+            bottom: 11.2%;
+            left: 36.5%;
+            width: 27%;
+            height: 52px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 16px;
+            z-index: 10;
+        }
+
+        .topics-settings-slot {
+            position: absolute;
+            bottom: 11.2%;
+            right: 6.5%;
+            width: 27%;
+            height: 52px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 16px;
+            z-index: 10;
         }
     </style>
 </head>
@@ -203,8 +281,9 @@
 
         <!-- SCREEN 3: Main Menu -->
         <div class="screen" id="screen-3">
-            <button class="journey-slot" onclick="alert('Journey Started!')"></button>
+            <button class="journey-slot" onclick="openTopics()"></button>
             <button class="shop-slot" onclick="openShop()"></button>
+            <button class="settings-slot" onclick="openSettings()"></button>
         </div>
 
         <!-- SCREEN 4: Shop / Vertical Swipe Carousel Screen -->
@@ -221,6 +300,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- SCREEN 5: Settings Screen -->
+        <div class="screen" id="screen-settings">
+            <button class="settings-back-slot" onclick="closeSettings()"></button>
+        </div>
+
+        <!-- SCREEN 6: Academies / Topics Screen -->
+        <div class="screen" id="screen-topics">
+            <button class="topics-back-slot" onclick="closeTopics()"></button>
+            <button class="topics-shop-slot" onclick="openShop()"></button>
+            <button class="topics-settings-slot" onclick="openSettingsFromTopics()"></button>
+        </div>
     </div>
 
     <script>
@@ -228,6 +319,8 @@
         const screen2 = document.getElementById('screen-2');
         const screen3 = document.getElementById('screen-3');
         const screen4 = document.getElementById('screen-4');
+        const screenSettings = document.getElementById('screen-settings');
+        const screenTopics = document.getElementById('screen-topics');
         const progressFill = document.getElementById('progress-fill');
         const percentCount = document.getElementById('percent-count');
         const carouselTrack = document.getElementById('carousel-track');
@@ -275,10 +368,11 @@
         }
 
         function openShop() {
+            // Hide any active main/topic screens and open shop
             screen3.classList.remove('active');
+            screenTopics.classList.remove('active');
             screen4.classList.add('active');
 
-            // Opens by instantly jumping to the bottom (Ads), holding briefly, then swiping up through Coins to Pass
             goToSlide(2, true);
 
             setTimeout(() => {
@@ -292,6 +386,33 @@
 
         function closeShop() {
             screen4.classList.remove('active');
+            // Return to menu by default when closing shop
+            screen3.classList.add('active');
+        }
+
+        function openSettings() {
+            screen3.classList.remove('active');
+            screenTopics.classList.remove('active');
+            screenSettings.classList.add('active');
+        }
+
+        function openSettingsFromTopics() {
+            screenTopics.classList.remove('active');
+            screenSettings.classList.add('active');
+        }
+
+        function closeSettings() {
+            screenSettings.classList.remove('active');
+            screen3.classList.add('active');
+        }
+
+        function openTopics() {
+            screen3.classList.remove('active');
+            screenTopics.classList.add('active');
+        }
+
+        function closeTopics() {
+            screenTopics.classList.remove('active');
             screen3.classList.add('active');
         }
 
