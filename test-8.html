@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Word Forge Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive Mobile Shell to keep exact proportions across all screens */
+        .phone-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            max-height: 932px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        /* Screen Wrapper */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Screen 1: Logo Splash */
+        #screen-1 {
+            background-color: #000;
+            background-image: url('assets/logo.png');
+        }
+
+        /* Screen 2 & 3 Backgrounds */
+        #screen-2 {
+            background-image: url('assets/load.png');
+        }
+
+        #screen-3 {
+            background-image: url('assets/menu.png');
+        }
+
+        /* Shop Vertical Carousel Screen Container (Fixed Background) */
+        #screen-4 {
+            background-image: url('assets/pass.png');
+        }
+
+        .shop-carousel-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none; /* Let clicks pass through except on interactive children */
+        }
+
+        .shop-carousel-track {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 300%;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: auto;
+        }
+
+        .shop-slide {
+            width: 100%;
+            height: 33.3333%;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        #shop-slide-1 {
+            background-image: url('assets/pass.png');
+        }
+
+        #shop-slide-2 {
+            background-image: url('assets/coin.png');
+        }
+
+        #shop-slide-3 {
+            background-image: url('assets/ads.png');
+        }
+
+        /* 
+          PIXEL-PERFECT LOADING BAR SLOT 
+          Aligned precisely to match the exact dimensions and position on load.png
+        */
+        .loading-slot {
+            position: absolute;
+            top: 80.5%;
+            left: 10.5%;
+            width: 79%;
+            height: 14px;
+            background: transparent;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .loading-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b6ef3, #7697ff);
+            border-radius: 20px;
+            transition: width 0.05s linear;
+        }
+
+        /* 
+          PERCENTAGE TEXT SLOT 
+          Positioned neatly right beneath the loading bar slot
+        */
+        .percentage-slot {
+            position: absolute;
+            top: 84.2%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #1a2b4c;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* 
+          PIXEL-PERFECT "BEGIN YOUR JOURNEY" BUTTON SLOT 
+          Matches assets/menu.png precisely
+        */
+        .journey-slot {
+            position: absolute;
+            top: 56.1%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 78%;
+            height: 60px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+
+        /* 
+          NEW SHOP / PASS BUTTON SLOTS (COINS & HINTS FOOTER)
+          Positioned over the bottom coin/hint bar on menu.png
+        */
+        .shop-slot {
+            position: absolute;
+            bottom: 3.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 82%;
+            height: 65px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        /* 
+          NEW BACK BUTTON SLOT ON SHOP SCREEN 
+          Positioned over the back arrow top-left on assets/pass.png
+        */
+        .back-slot {
+            position: absolute;
+            top: 4.5%;
+            left: 6%;
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-viewport">
+        <!-- SCREEN 1: Logo Splash (Shows for 3 seconds, fades out) -->
+        <div class="screen active" id="screen-1"></div>
+
+        <!-- SCREEN 2: Loading State -->
+        <div class="screen" id="screen-2">
+            <div class="loading-slot">
+                <div class="loading-fill" id="progress-fill"></div>
+            </div>
+            <div class="percentage-slot" id="percent-count">0%</div>
+        </div>
+
+        <!-- SCREEN 3: Main Menu -->
+        <div class="screen" id="screen-3">
+            <button class="journey-slot" onclick="alert('Journey Started!')"></button>
+            <button class="shop-slot" onclick="openShop()"></button>
+        </div>
+
+        <!-- SCREEN 4: Shop / Pass Vertical Carousel Screen -->
+        <div class="screen" id="screen-4">
+            <div class="shop-carousel-container" id="carousel-container">
+                <div class="shop-carousel-track" id="carousel-track">
+                    <!-- Slide 1: Pass Screen -->
+                    <div class="shop-slide" id="shop-slide-1">
+                        <button class="back-slot" onclick="closeShop()"></button>
+                    </div>
+                    <!-- Slide 2: Coin Screen -->
+                    <div class="shop-slide" id="shop-slide-2">
+                        <button class="back-slot" onclick="closeShop()"></button>
+                    </div>
+                    <!-- Slide 3: Ads / Remove Ads Screen -->
+                    <div class="shop-slide" id="shop-slide-3">
+                        <button class="back-slot" onclick="closeShop()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const screen1 = document.getElementById('screen-1');
+        const screen2 = document.getElementById('screen-2');
+        const screen3 = document.getElementById('screen-3');
+        const screen4 = document.getElementById('screen-4');
+        const progressFill = document.getElementById('progress-fill');
+        const percentCount = document.getElementById('percent-count');
+        const carouselTrack = document.getElementById('carousel-track');
+        const carouselContainer = document.getElementById('carousel-container');
+
+        let currentSlideIndex = 0; // 0: Pass, 1: Coin, 2: Ads
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Step 1: Display Logo Splash for 3 seconds
+            setTimeout(() => {
+                screen1.classList.remove('active');
+                screen2.classList.add('active');
+                
+                // Step 2: Smooth loading progress animation (~2.5 seconds)
+                let currentProgress = 0;
+                const loadingInterval = setInterval(() => {
+                    currentProgress += 1;
+                    if (currentProgress <= 100) {
+                        progressFill.style.width = currentProgress + '%';
+                        percentCount.innerText = currentProgress + '%';
+                    } else {
+                        clearInterval(loadingInterval);
+                        
+                        // Step 3: Transition cleanly to Menu screen
+                        setTimeout(() => {
+                            screen2.classList.remove('active');
+                            screen3.classList.add('active');
+                        }, 300);
+                    }
+                }, 25);
+                
+            }, 3000);
+        });
+
+        // Navigation Functions for Shop / Pass Screen with Intro Demo Animation
+        function openShop() {
+            screen3.classList.remove('active');
+            screen4.classList.add('active');
+
+            // Instantly jump to Slide 3 (Ads) without animation
+            carouselTrack.style.transition = 'none';
+            currentSlideIndex = 2;
+            updateTrackPosition(false);
+
+            // Force reflow
+            carouselTrack.offsetHeight;
+
+            // Automatically swipe up through the sequence to Slide 1 (Pass)
+            setTimeout(() => {
+                // First step: Move from Slide 3 to Slide 2
+                carouselTrack.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                currentSlideIndex = 1;
+                updateTrackPosition(true);
+
+                // Second step: Move from Slide 2 to Slide 1 (Pass) after a brief pause
+                setTimeout(() => {
+                    currentSlideIndex = 0;
+                    updateTrackPosition(true);
+                }, 600);
+
+            }, 400);
+        }
+
+        function closeShop() {
+            screen4.classList.remove('active');
+            screen3.classList.add('active');
+        }
+
+        function updateTrackPosition(smooth = true) {
+            if (!smooth) {
+                carouselTrack.style.transition = 'none';
+            } else {
+                carouselTrack.style.transition = 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1)';
+            }
+            const percentage = currentSlideIndex * -(100 / 3);
+            carouselTrack.style.transform = `translateY(${percentage}%)`;
+        }
+
+        // Touch Swipe Handling for Vertical Carousel
+        carouselContainer.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        carouselContainer.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].clientY;
+            handleSwipeGesture();
+        }, { passive: true });
+
+        // Mouse Support for Testing Swipes on Desktop
+        let mousedownY = 0;
+        carouselContainer.addEventListener('mousedown', (e) => {
+            mousedownY = e.clientY;
+        });
+
+        carouselContainer.addEventListener('mouseup', (e) => {
+            let mouseupY = e.clientY;
+            let diff = mousedownY - mouseupY;
+            if (Math.abs(diff) > 40) {
+                if (diff > 0) {
+                    // Swiped Up
+                    if (currentSlideIndex < 2) {
+                        currentSlideIndex++;
+                        updateTrackPosition(true);
+                    }
+                } else {
+                    // Swiped Down
+                    if (currentSlideIndex > 0) {
+                        currentSlideIndex--;
+                        updateTrackPosition(true);
+                    }
+                }
+            }
+        });
+
+        function handleSwipeGesture() {
+            let swipeDistance = touchStartY - touchEndY;
+            // Minimum threshold for swipe detection
+            if (Math.abs(swipeDistance) > 40) {
+                if (swipeDistance > 0) {
+                    // Swipe Up -> Next Slide (Pass -> Coin -> Ads)
+                    if (currentSlideIndex < 2) {
+                        currentSlideIndex++;
+                        updateTrackPosition(true);
+                    }
+                } else {
+                    // Swipe Down -> Previous Slide (Ads -> Coin -> Pass)
+                    if (currentSlideIndex > 0) {
+                        currentSlideIndex--;
+                        updateTrackPosition(true);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
