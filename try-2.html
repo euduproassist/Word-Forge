@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Word Forge Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+        }
+
+        /* Screen Wrapper */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Screen 1: Logo Splash */
+        #screen-1 {
+            background-color: #000;
+            background-image: url('assets/logo.png');
+        }
+
+        /* Fullscreen Image Container mapping background images directly */
+        .bg-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        #screen-2 .bg-container {
+            background-image: url('assets/loading.png');
+        }
+
+        #screen-3 .bg-container {
+            background-image: url('assets/menu.png');
+        }
+
+        /* Precise Loading Bar Overlay Positioned over Screen 2 graphic bar */
+        .loading-section {
+            position: absolute;
+            top: 79.5%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 73%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 11px;
+            background: transparent; /* lets the background image slot look untouched */
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b6ef3, #7697ff);
+            border-radius: 20px;
+            transition: width 0.05s linear;
+        }
+
+        /* Precise "Begin Your Journey" Button Positioned over Screen 3 graphic button */
+        .journey-btn {
+            position: absolute;
+            top: 56.1%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 79%;
+            max-width: 410px;
+            height: 60px;
+            background: transparent; /* perfectly mirrors your graphic button position */
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN 1: Logo Splash (Shows for 3 seconds, then fades) -->
+    <div class="screen active" id="screen-1"></div>
+
+    <!-- SCREEN 2: Loading State -->
+    <div class="screen" id="screen-2">
+        <div class="bg-container">
+            <div class="loading-section">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: Main Menu with Custom Button Overlay -->
+    <div class="screen" id="screen-3">
+        <div class="bg-container">
+            <button class="journey-btn" onclick="alert('Journey Started!')"></button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            const screen3 = document.getElementById('screen-3');
+            const progressFill = document.getElementById('progress-fill');
+
+            // Step 1: Display Screen 1 for exactly 3 seconds, then transition to Screen 2
+            setTimeout(() => {
+                screen1.classList.remove('active');
+                screen2.classList.add('active');
+                
+                // Step 2: Smooth loading ticker simulation (~2.5 seconds total duration)
+                let currentProgress = 0;
+                const loadingInterval = setInterval(() => {
+                    currentProgress += 1;
+                    if (currentProgress <= 100) {
+                        progressFill.style.width = currentProgress + '%';
+                    } else {
+                        clearInterval(loadingInterval);
+                        
+                        // Step 3: Transition smoothly from Screen 2 to Screen 3 menu
+                        setTimeout(() => {
+                            screen2.classList.remove('active');
+                            screen3.classList.add('active');
+                        }, 400);
+                    }
+                }, 25);
+                
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
