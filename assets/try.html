@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Forge Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+        }
+
+        /* Screen Wrapper */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Screen 1: Logo Splash */
+        #screen-1 {
+            background-color: #000;
+            background-image: url('assets/logo.png');
+        }
+
+        /* Screen 2 & 3 Shared Background */
+        #screen-2, #screen-3 {
+            background-image: url('assets/loading.png'); /* Fallback/base layout */
+        }
+
+        /* Container simulating the exact layout of the images */
+        .app-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            max-height: 900px;
+            background-image: url('assets/loading.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 75px;
+        }
+
+        #screen-3 .app-container {
+            background-image: url('assets/menu.png');
+            justify-content: center; /* Adjust depending on exact menu layout spacing */
+            padding-bottom: 0;
+        }
+
+        /* Custom Loading Bar Container matching Screen 2 position */
+        .loading-section {
+            position: absolute;
+            bottom: 120px;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading-text {
+            color: #2b4570;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b6ef3, #7697ff);
+            border-radius: 20px;
+            transition: width 0.1s linear;
+        }
+
+        .percentage-text {
+            color: #1a2b4c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Custom "Begin Your Journey" Button matching Screen 3 position */
+        .journey-btn {
+            position: absolute;
+            top: 52%; /* Precisely positioned where the button slot is on menu.png */
+            transform: translateY(-50%);
+            width: 78%;
+            max-width: 330px;
+            height: 56px;
+            background: linear-gradient(90deg, #3b6ef3, #8c76ff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(59, 110, 243, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .journey-btn:active {
+            transform: translateY(-50%) scale(0.97);
+            box-shadow: 0 5px 10px rgba(59, 110, 243, 0.2);
+        }
+
+        /* Play Icon inside the button */
+        .journey-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN 1: Logo Splash (Shows for 3 seconds, then fades) -->
+    <div class="screen active" id="screen-1"></div>
+
+    <!-- SCREEN 2: Loading State -->
+    <div class="screen" id="screen-2">
+        <div class="app-container">
+            <div class="loading-section">
+                <div class="loading-text" id="status-text">Preparing your journey...</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progress-fill"></div>
+                </div>
+                <div class="percentage-text" id="percent-count">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: Main Menu with Custom "Begin Your Journey" Button -->
+    <div class="screen" id="screen-3">
+        <div class="app-container">
+            <button class="journey-btn" onclick="alert('Journey Started!')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                Begin Your Journey
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sequence Controller
+        window.addEventListener('DOMContentLoaded', () => {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            const screen3 = document.getElementById('screen-3');
+            
+            const progressFill = document.getElementById('progress-fill');
+            const percentCount = document.getElementById('percent-count');
+
+            // Step 1: Display Screen 1 for exactly 3 seconds, then transition to Screen 2
+            setTimeout(() => {
+                screen1.classList.remove('active');
+                screen2.classList.add('active');
+                
+                // Step 2: Start Loading Simulation (takes ~2.5 seconds to complete)
+                let currentProgress = 0;
+                const loadingInterval = setInterval(() => {
+                    currentProgress += 1;
+                    if (currentProgress <= 100) {
+                        progressFill.style.width = currentProgress + '%';
+                        percentCount.innerText = currentProgress + '%';
+                    } else {
+                        clearInterval(loadingInterval);
+                        
+                        // Step 3: Transition from Screen 2 to Screen 3 smoothly
+                        setTimeout(() => {
+                            screen2.classList.remove('active');
+                            screen3.classList.add('active');
+                        }, 400);
+                    }
+                }, 25); // Speed of loading ticker
+                
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
