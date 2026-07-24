@@ -1,0 +1,675 @@
+# WORD FORGE — FINAL GAME DESIGN
+
+---
+
+# CORE IDEA
+
+Word Forge is a mobile word puzzle game where players discover hidden English words using clues and a circle of letters.
+
+It is **not** a dictionary.
+
+It is **not** a grammar app.
+
+It is a puzzle game that teaches English naturally while players solve challenges.
+
+---
+
+# GAMEPLAY LOOP
+
+Player enters Word Forge
+
+↓
+
+Chooses an Academy
+
+↓
+
+Chooses a Competition Stage
+
+↓
+
+Chooses a Level
+
+↓
+
+Puzzle begins
+
+↓
+
+Read the clue
+
+↓
+
+Look at the letter circle
+
+↓
+
+Connect letters
+
+↓
+
+Correct word fills the boxes
+
+↓
+
+Find every hidden answer
+
+↓
+
+Win Coins + XP
+
+↓
+
+Unlock next level
+
+---
+
+# EVERY PUZZLE CONTAINS
+
+## 1. Academy
+
+One of
+
+* Homophones
+* Compound Words
+* Homonyms
+* Word Families
+* Prefixes
+* Suffixes
+
+---
+
+## 2. Player Friendly Tip
+
+Instead of teaching grammar before playing...
+
+The game gives simple clues.
+
+Examples
+
+### Homophones
+
+```text
+Find words that sound the same.
+```
+
+---
+
+### Compound Words
+
+```text
+Complete the compound word.
+```
+
+---
+
+### Homonyms
+
+```text
+One spelling.
+Different meanings.
+```
+
+---
+
+### Word Families
+
+```text
+Discover words from the same family.
+```
+
+---
+
+### Prefixes
+
+```text
+Complete the word that starts with
+
+UNDER
+```
+
+---
+
+### Suffixes
+
+```text
+Complete the word ending with
+
+NESS
+```
+
+---
+
+# 3. Clue
+
+Example
+
+```text
+RIGHT
+```
+
+or
+
+```text
+Starts with
+
+UNDER
+```
+
+or
+
+```text
+Ends with
+
+NESS
+```
+
+---
+
+# 4. Empty Boxes
+
+Player never sees answers.
+
+Only
+
+```text
+□□□□□□□
+
+□□□□□□□□
+
+□□□□□□
+```
+
+---
+
+# 5. Letter Circle
+
+Every puzzle contains
+
+## 60% Useful Letters
+
+*
+
+## 40% Decoy Letters
+
+Example
+
+```text
+G
+R
+O
+U
+N
+D
+
+W
+A
+T
+E
+R
+
+X
+Q
+B
+P
+```
+
+Player never knows
+
+* which letters are useful
+* which letters are fake
+* how many answers still remain
+
+The uncertainty creates challenge.
+
+---
+
+# DECOY LETTERS
+
+Purpose
+
+✓ Prevent instant solving
+
+✓ Encourage exploration
+
+✓ Make every swipe a decision
+
+✓ Increase difficulty naturally
+
+Player should constantly think
+
+> Maybe this word works...
+
+instead of instantly seeing every answer.
+
+---
+
+# ACADEMIES
+
+---
+
+# 1. HOMOPHONES
+
+Tip
+
+```text
+Find words that sound the same.
+```
+
+Example
+
+Clue
+
+```text
+RIGHT
+```
+
+Player discovers
+
+```text
+WRITE
+
+RITE
+```
+
+After completing
+
+Game teaches
+
+```text
+Homophones
+
+Words that sound the same
+but have different spellings
+and meanings.
+```
+
+---
+
+# 2. COMPOUND WORDS
+
+Tip
+
+```text
+Complete the compound word.
+```
+
+Example
+
+Clue
+
+```text
+Starts with
+
+SUN
+```
+
+Circle contains
+
+```text
+LIGHT
+
+FLOWER
+
+SHINE
+
++
+
+Decoys
+```
+
+Player swipes
+
+```text
+LIGHT
+```
+
+Game displays
+
+```text
+SUNLIGHT
+```
+
+Player swipes
+
+```text
+FLOWER
+```
+
+↓
+
+```text
+SUNFLOWER
+```
+
+---
+
+# 3. HOMONYMS
+
+Tip
+
+```text
+One spelling.
+
+Different meanings.
+```
+
+Example
+
+Clue
+
+```text
+BANK
+```
+
+Player discovers meanings
+
+```text
+🏦 Financial Institution
+
+🏞 River Bank
+```
+
+After completion
+
+Game explains
+
+```text
+Homonyms
+
+Words that share the same
+spelling but have
+different meanings.
+```
+
+---
+
+# 4. WORD FAMILIES
+
+Tip
+
+```text
+Discover words from
+the same family.
+```
+
+Example
+
+Base word
+
+```text
+PLAY
+```
+
+Player discovers
+
+```text
+PLAYER
+
+PLAYFUL
+
+PLAYING
+
+REPLAY
+```
+
+---
+
+# 5. PREFIXES
+
+Tip
+
+```text
+Complete the word
+that starts with
+
+UNDER
+```
+
+Player never receives
+
+UNDER
+
+inside the letter circle.
+
+Circle only contains
+
+```text
+GROUND
+
+WATER
+
+LINE
+
++
+
+Decoys
+```
+
+Player swipes
+
+```text
+GROUND
+```
+
+Game displays
+
+```text
+UNDERGROUND
+```
+
+---
+
+# 6. SUFFIXES
+
+Tip
+
+```text
+Complete the word
+ending with
+
+NESS
+```
+
+Player receives
+
+```text
+HAPPY
+
+KIND
+
+DARK
+
++
+
+Decoys
+```
+
+Player swipes
+
+```text
+HAPPY
+```
+
+↓
+
+Game displays
+
+```text
+HAPPINESS
+```
+
+---
+
+# LEARNING
+
+Learning happens
+
+AFTER
+
+the puzzle.
+
+Example
+
+```text
+Excellent!
+
+Today's Lesson
+
+Homophones
+
+Homophones are words
+that sound the same but
+have different spellings.
+```
+
+The player never has to study before playing.
+
+---
+
+# DIFFICULTY
+
+Difficulty comes from
+
+✓ Decoy letters
+
+✓ Multiple possible paths
+
+✓ Hidden combinations
+
+✓ Searching
+
+✓ Exploration
+
+NOT
+
+❌ Impossible vocabulary
+
+❌ Dictionary memorization
+
+---
+
+# COMPETITION STAGES
+
+Only
+
+```text
+Classroom Challenge
+```
+
+is unlocked.
+
+Each stage contains
+
+10 Levels
+
+Complete all 10
+
+↓
+
+Unlock
+
+```text
+School Bee
+```
+
+↓
+
+District Bee
+
+↓
+
+Regional Qualifier
+
+↓
+
+Regional Bee
+
+↓
+
+Provincial Bee
+
+↓
+
+State Championship
+
+↓
+
+National Qualifier
+
+↓
+
+National Championship
+
+↓
+
+Continental Qualifier
+
+↓
+
+Continental Championship
+
+↓
+
+International Qualifier
+
+↓
+
+International Championship
+
+---
+
+# REWARDS
+
+Every completed level gives
+
+* Coins
+* XP
+* Competition Progress
+* Daily Streak Progress
+
+---
+
+# HINTS
+
+100 Coins
+
+=
+
+1 Hint
+
+Hint reveals
+
+* one useful letter
+
+or
+
+* one hidden answer
+
+---
+
+# ADS
+
+30 Second Rewarded Ad
+
+↓
+
+50 Coins
+
+Available
+
+* Every 10 minutes
+
+OR
+
+* After every 3 completed puzzles
+
+---
+
+# PLAYER EXPERIENCE
+
+The player should constantly feel
+
+> "I know another word is hiding here..."
+
+That feeling of searching, experimenting, discovering, and finally solving the puzzle is the heart of **Word Forge**. It teaches English naturally while delivering the same sense of progression and accomplishment that makes word puzzle games enjoyable.
