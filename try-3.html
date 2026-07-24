@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Forge Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+        }
+
+        /* Fullscreen Screen Container */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .screen.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Screen 1: Logo Splash */
+        #screen-1 {
+            background-color: #000;
+            background-image: url('assets/logo.png');
+        }
+
+        /* Screen 2 & 3 Mobile Frame to Keep Proportions Consistent */
+        .app-frame {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            max-height: 950px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #screen-2 .app-frame {
+            background-image: url('assets/loading.png');
+        }
+
+        #screen-3 .app-frame {
+            background-image: url('assets/menu.png');
+        }
+
+        /* 
+          EXACT PLACEMENT OVERLAY FOR LOADING BAR 
+          Positioned precisely over the original loader in assets/loading.png
+        */
+        .custom-loader-overlay {
+            position: absolute;
+            bottom: 12.5%; /* Matches the vertical slot of the original bar */
+            left: 10%;
+            width: 80%;
+            height: 24px;
+            background-color: #eaf1fb; /* Covers up the old background track */
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .custom-loader-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #3b6ef3, #7697ff);
+            border-radius: 20px;
+            transition: width 0.05s linear;
+        }
+
+        /* 
+          EXACT PLACEMENT OVERLAY FOR "BEGIN YOUR JOURNEY" BUTTON 
+          Positioned precisely over the original button slot in assets/menu.png
+        */
+        .custom-journey-btn {
+            position: absolute;
+            top: 51.7%; /* Matches the exact vertical position of the menu button */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 78%;
+            max-width: 330px;
+            height: 58px;
+            background: linear-gradient(90deg, #3b6ef3, #8c76ff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(59, 110, 243, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .custom-journey-btn:active {
+            transform: translate(-50%, -50%) scale(0.97);
+        }
+
+        .custom-journey-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN 1: Logo Splash (Shows for 3 seconds, fades out) -->
+    <div class="screen active" id="screen-1"></div>
+
+    <!-- SCREEN 2: Loading State with Perfect Overlaid Progress Bar -->
+    <div class="screen" id="screen-2">
+        <div class="app-frame">
+            <div class="custom-loader-overlay">
+                <div class="custom-loader-fill" id="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: Main Menu with Perfect Overlaid Button -->
+    <div class="screen" id="screen-3">
+        <div class="app-frame">
+            <button class="custom-journey-btn" onclick="alert('Journey Started!')">
+                <svg viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+                Begin Your Journey
+            </button>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const screen1 = document.getElementById('screen-1');
+            const screen2 = document.getElementById('screen-2');
+            const screen3 = document.getElementById('screen-3');
+            const progressFill = document.getElementById('progress-fill');
+
+            // Step 1: Show logo splash for 3 seconds, then fade to loading screen
+            setTimeout(() => {
+                screen1.classList.remove('active');
+                screen2.classList.add('active');
+                
+                // Step 2: Smooth loading progress ticker
+                let currentProgress = 0;
+                const loadingInterval = setInterval(() => {
+                    currentProgress += 1;
+                    if (currentProgress <= 100) {
+                        progressFill.style.width = currentProgress + '%';
+                    } else {
+                        clearInterval(loadingInterval);
+                        
+                        // Step 3: Transition to Main Menu screen seamlessly
+                        setTimeout(() => {
+                            screen2.classList.remove('active');
+                            screen3.classList.add('active');
+                        }, 300);
+                    }
+                }, 25); // Controls loading speed (~2.5 seconds total)
+                
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
