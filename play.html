@@ -160,7 +160,7 @@
             text-transform: uppercase;
         }
 
-        /* Letter Circle Arena - Expanded Size */
+        /* Letter Circle Arena */
         .circle-arena {
             width: 290px;
             height: 290px;
@@ -379,37 +379,32 @@
     </div>
 
     <script>
-        // Game Levels Data featuring Homonyms and mixed Zig-Zag intersecting grids
+        // Game Levels Data featuring Homonyms and mixed Zig-Zag intersecting grids (Decoys removed completely)
         const levels = [
             {
                 homonym: "BAT",
                 clue: "Words related to the flying mammal, sports equipment, or striking.",
-                words: ["BAT", "BALL", "HIT", "CAVE"],
-                decoys: ["S", "O", "X", "R"] 
+                words: ["BAT", "BALL", "HIT", "CAVE"]
             },
             {
                 homonym: "RIGHT",
                 clue: "Words related to direction, correctness, or entitlements.",
-                words: ["RIGHT", "LEFT", "CORRECT", "JUST"],
-                decoys: ["M", "P", "Q", "Z"]
+                words: ["RIGHT", "LEFT", "CORRECT", "JUST"]
             },
             {
                 homonym: "PARK",
                 clue: "Words related to outdoor green spaces or vehicular stopping.",
-                words: ["PARK", "TREE", "CAR", "WALK"],
-                decoys: ["X", "S", "J", "B"]
+                words: ["PARK", "TREE", "CAR", "WALK"]
             },
             {
                 homonym: "WAVE",
                 clue: "Words related to ocean motion or greeting hand gestures.",
-                words: ["WAVE", "OCEAN", "HAND", "SURF"],
-                decoys: ["K", "T", "Q", "P"]
+                words: ["WAVE", "OCEAN", "HAND", "SURF"]
             },
             {
                 homonym: "RING",
                 clue: "Words related to jewelry bands or acoustic bell sounds.",
-                words: ["RING", "BELL", "GOLD", "SOUND"],
-                decoys: ["X", "P", "T", "M"]
+                words: ["RING", "BELL", "GOLD", "SOUND"]
             }
         ];
 
@@ -556,23 +551,30 @@
         }
 
         function prepareCircleLetters() {
-            let usefulLetters = [];
+            // Collect unique letters from words and duplicate letters that appear multiple times across target words
+            let letterPool = [];
             activeLevel.words.forEach(w => {
                 w.split('').forEach(ch => {
-                    if (!usefulLetters.includes(ch)) usefulLetters.push(ch);
+                    letterPool.push(ch);
                 });
             });
 
-            let decoys = activeLevel.decoys || ['X', 'Q'];
-            let combined = [...usefulLetters, ...decoys];
-            lettersInCircle = combined.sort(() => Math.random() - 0.5);
+            // To maintain a clean circle with unique working letters needed for puzzle completion:
+            let uniqueLetters = [];
+            activeLevel.words.forEach(w => {
+                w.split('').forEach(ch => {
+                    if (!uniqueLetters.includes(ch)) uniqueLetters.push(ch);
+                });
+            });
+
+            lettersInCircle = uniqueLetters.sort(() => Math.random() - 0.5);
         }
 
         function renderCircleLetters() {
             document.querySelectorAll('.letter-node').forEach(el => el.remove());
 
             let count = lettersInCircle.length;
-            let radius = 95; // Increased radius for better letter separation inside larger circle
+            let radius = 95; 
             let centerX = circleArena.clientWidth / 2;
             let centerY = circleArena.clientHeight / 2;
 
