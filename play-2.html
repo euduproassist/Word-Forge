@@ -44,85 +44,81 @@
         /* Header Info */
         header {
             width: 100%;
-            padding: 10px 15px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(5px);
             z-index: 10;
-            flex-shrink: 0;
         }
 
         .level-info {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: bold;
             letter-spacing: 1px;
         }
 
         .score-info {
             background: rgba(255, 255, 255, 0.2);
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
         }
 
         /* Clue Area */
         .clue-container {
             text-align: center;
-            padding: 0 15px;
-            margin-top: 2px;
+            padding: 0 20px;
+            margin-top: 5px;
             z-index: 10;
-            flex-shrink: 0;
         }
 
         .clue-title {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: var(--accent);
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
 
         .clue-text {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 600;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            line-height: 1.3;
         }
 
-        /* Crossword Grid Area - Scaled up box and spacing */
+        /* Crossword Grid Area */
         .grid-container {
             flex: 1;
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             padding: 10px;
-            min-height: 0;
         }
 
         .crossword-board {
             display: grid;
-            gap: 8px; /* Increased gap so words are not too close */
+            gap: 4px;
             position: relative;
             transform-origin: center;
             transition: transform 0.3s ease;
         }
 
         .grid-cell {
-            width: 44px; /* Larger box size */
-            height: 44px;
+            width: 36px;
+            height: 36px;
             background: var(--tile-bg);
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: var(--tile-text);
             text-transform: uppercase;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
@@ -140,22 +136,21 @@
             box-shadow: none;
         }
 
-        /* Controls / Bottom Area - Raised up from bottom edge */
+        /* Controls / Bottom Area */
         .bottom-section {
             width: 100%;
             max-width: 400px;
-            height: 250px;
+            height: 240px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            padding-bottom: 30px; /* Safe padding from screen bottom */
-            flex-shrink: 0;
+            padding-bottom: 10px;
         }
 
         /* Live Selection Feedback Line */
         .selection-word-display {
-            height: 25px;
+            height: 30px;
             font-size: 1.2rem;
             font-weight: bold;
             letter-spacing: 3px;
@@ -167,8 +162,8 @@
 
         /* Letter Circle Arena */
         .circle-arena {
-            width: 210px; /* Slightly compact to ensure visibility */
-            height: 210px;
+            width: 290px;
+            height: 290px;
             position: relative;
             background: var(--circle-bg);
             border: 2px solid var(--circle-border);
@@ -207,8 +202,8 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -227,24 +222,24 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             background: rgba(255, 255, 255, 0.2);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         /* Letter Nodes */
         .letter-node {
             position: absolute;
-            width: 42px;
-            height: 42px;
+            width: 48px;
+            height: 48px;
             background: var(--letter-bg);
             color: var(--letter-text);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
@@ -384,6 +379,7 @@
     </div>
 
     <script>
+        // Game Levels Data featuring Homonyms and mixed Zig-Zag intersecting grids
         const levels = [
             {
                 homonym: "BAT",
@@ -425,6 +421,7 @@
         let gridData = {}; 
         let gridBounds = { minR: 0, maxR: 0, minC: 0, maxC: 0 };
 
+        // DOM Elements
         const crosswordBoard = document.getElementById('crossword-board');
         const circleArena = document.getElementById('circle-arena');
         const shuffleBtn = document.getElementById('shuffle-btn');
@@ -533,8 +530,8 @@
             let numRows = gridBounds.maxR - gridBounds.minR + 1;
             let numCols = gridBounds.maxC - gridBounds.minC + 1;
 
-            crosswordBoard.style.gridTemplateColumns = `repeat(${numCols}, 44px)`;
-            crosswordBoard.style.gridTemplateRows = `repeat(${numRows}, 44px)`;
+            crosswordBoard.style.gridTemplateColumns = `repeat(${numCols}, 36px)`;
+            crosswordBoard.style.gridTemplateRows = `repeat(${numRows}, 36px)`;
 
             for (let r = gridBounds.minR; r <= gridBounds.maxR; r++) {
                 for (let c = gridBounds.minC; c <= gridBounds.maxC; c++) {
@@ -575,11 +572,11 @@
             document.querySelectorAll('.letter-node').forEach(el => el.remove());
 
             let count = lettersInCircle.length;
-            let radius = 68; // Adjusted radius for compact ring layout
+            let radius = 95; // Increased radius for better letter spacing and breathing room
             let centerX = circleArena.clientWidth / 2;
             let centerY = circleArena.clientHeight / 2;
 
-            if (centerX === 0) { centerX = 105; centerY = 105; }
+            if (centerX === 0) { centerX = 145; centerY = 145; }
 
             lettersInCircle.forEach((letter, idx) => {
                 let angle = (idx * 2 * Math.PI) / count - Math.PI / 2;
@@ -665,16 +662,12 @@
             let points = [];
             let nodes = circleArena.querySelectorAll('.letter-node');
 
-            selectedIndices.join(','); // reference to keep loop tidy
             selectedIndices.forEach(idx => {
                 let node = nodes[idx];
                 let nRect = node.getBoundingClientRect();
                 let x = nRect.left + nRect.width / 2 - rect.left;
-                let y = nRect.top + nRect.height / z = nRect.height / 2 - rect.top; // safe offset
-                // simplified standard coordinate mapping
-                let px = nRect.left + nRect.width / 2 - rect.left;
-                let py = nRect.top + nRect.height / 2 - rect.top;
-                points.push(`${px},${py}`);
+                let y = nRect.top + nRect.height / 2 - rect.top;
+                points.push(`${x},${y}`);
             });
 
             let currentX = e.clientX - rect.left;
