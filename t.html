@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apple Doesn't Fall Far From The Tree</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+background:#d7f5c6;
+overflow:hidden;
+font-family:Arial,sans-serif;
+
+}
+
+.scene{
+
+position:relative;
+width:100vw;
+height:100vh;
+
+}
+
+.title{
+
+position:absolute;
+top:30px;
+width:100%;
+text-align:center;
+font-size:32px;
+font-weight:bold;
+color:#333;
+
+}
+
+.tree{
+
+position:absolute;
+right:170px;
+bottom:120px;
+font-size:150px;
+
+}
+
+.apple{
+
+position:absolute;
+right:215px;
+top:120px;
+font-size:60px;
+
+transition:top 2s linear,left 2s linear;
+
+}
+
+.smallTree{
+
+position:absolute;
+left:120px;
+bottom:120px;
+font-size:90px;
+
+opacity:0;
+transition:opacity .6s;
+
+}
+
+.ground{
+
+position:absolute;
+bottom:90px;
+width:100%;
+height:8px;
+background:#4caf50;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="scene">
+
+<div class="title">
+Apple Doesn't Fall Far From The Tree
+</div>
+
+<div id="apple" class="apple">
+🍎
+</div>
+
+<div class="tree">
+🌳
+</div>
+
+<div id="smallTree" class="smallTree">
+🌱
+</div>
+
+<div class="ground"></div>
+
+</div>
+
+<script>
+
+const apple=document.getElementById("apple");
+const smallTree=document.getElementById("smallTree");
+
+function play(){
+
+apple.style.transition="none";
+apple.style.top="120px";
+apple.style.right="215px";
+
+smallTree.style.opacity="0";
+
+void apple.offsetWidth;
+
+apple.style.transition="top 2s linear";
+apple.style.top="420px";
+
+setTimeout(()=>{
+
+apple.style.transition="left 2s linear";
+apple.style.left="150px";
+apple.style.right="";
+
+},2100);
+
+setTimeout(()=>{
+
+smallTree.style.opacity="1";
+
+},4300);
+
+}
+
+play();
+
+setInterval(play,7000);
+
+</script>
+
+</body>
+</html>
